@@ -9,7 +9,7 @@ import models.Employee;
 
 //従業員データのDTOモデル⇔Viewモデルの変換を行うクラス
 
-public class EmployeeCoverter {
+public class EmployeeConverter {
     /**
      * ViewモデルのインスタンスからDTOモデルのインスタンスを作成する
      * @param ev EmployeeViewのインスタンス
