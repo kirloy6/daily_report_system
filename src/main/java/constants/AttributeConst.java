@@ -48,6 +48,7 @@ public enum AttributeConst {
     private final String text;
     private final Integer i;
 
+
     private AttributeConst(final String text) {
         this.text=text;
         this.i=null;
