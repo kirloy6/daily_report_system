@@ -78,7 +78,7 @@ public class FrontController extends HttpServlet {
                     .getDeclaredConstructor()
                     .newInstance());
             /*あまり気にしない。actionemployeeなどのタイプから親クラスのインスタンスを生成　多態性
-             * employeeやunknown repotなどのインスタンスがactionにはいる。親クラスActionBaseから作られたもの。
+             * employeeやunknown reportなどのインスタンスがactionにはいる。親クラスActionBaseから作られたもの。
 
              */
 

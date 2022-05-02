@@ -12,7 +12,7 @@
     <c:param name="content">
 
         <h2>id : ${employee.id} の従業員情報 詳細ページ</h2>
-        <%-- {}内の内容は putRequestScope(AttributeConst.EMPLOYEE, ev); //取得した従業員情報
+        <%-- {}内の内容は対応するEmployeeActionのメソッドの putRequestScope(AttributeConst.EMPLOYEE, ev); //取得した従業員情報
         のemployeeという名前でセットされたevの中のidやcode,nameを参照
         --%>
 
