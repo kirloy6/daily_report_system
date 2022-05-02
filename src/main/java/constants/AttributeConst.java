@@ -5,7 +5,7 @@ public enum AttributeConst {
     FLUSH("flush"),
 
     //一覧画面共通
-    MAX_ROW("mmaxRow"),
+    MAX_ROW("maxRow"),
     PAGE("page"),
 
     //入力フォーム共通
