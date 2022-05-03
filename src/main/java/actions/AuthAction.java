@@ -95,6 +95,24 @@ public class AuthAction extends ActionBase {
         }
     }
 
+    /**
+     * ログアウト処理を行う
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void logout() throws ServletException, IOException {
+
+        //セッションからログイン従業員のパラメータを削除
+        removeSessionScope(AttributeConst.LOGIN_EMP);
+
+        //セッションにログアウト時のフラッシュメッセージを追加
+        putSessionScope(AttributeConst.FLUSH, MessageConst.I_LOGOUT.getMessage());
+
+        //ログイン画面にリダイレクト　http://localhost:8080/daily_report_system/?action=Auth&command=showLogin
+        redirect(ForwardConst.ACT_AUTH, ForwardConst.CMD_SHOW_LOGIN);
+
+    }
+
 
 }
 
