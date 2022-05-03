@@ -135,7 +135,7 @@ public class EmployeeService extends ServiceBase {
         //idを条件に登録済みの従業員情報を取得する
         EmployeeView savedEmp = findOne(ev.getId());
 
-        boolean validateCode = false;
+        boolean validateCode = false;//初期値はfalse ifチェックして必要ならtrueを入れる
         if (!savedEmp.getCode().equals(ev.getCode())) {
             //社員番号を更新する場合
 
@@ -165,7 +165,7 @@ public class EmployeeService extends ServiceBase {
         savedEmp.setUpdatedAt(today);
 
         //更新内容についてバリデーションを行う
-        List<String> errors = EmployeeValidator.validate(this, savedEmp, validateCode, validatePass);
+        List<String> errors = EmployeeValidator.validate(this, savedEmp, validateCode, validatePass);//つまりcode passはtrue
 
         //バリデーションエラーがなければデータを更新する
         if (errors.size() == 0) {

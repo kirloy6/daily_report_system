@@ -24,10 +24,6 @@ public abstract class ActionBase {
     protected HttpServletRequest request;
     protected HttpServletResponse response;//抽象クラス　継承したサブクラスで実装
 
-
-
-
-
     /**
      * 初期化処理
      * サーブレットコンテキスト、リクエスト、レスポンスをクラスフィールドに設定
@@ -67,7 +63,7 @@ public abstract class ActionBase {
 
             //commandに該当するメソッドを実行する
             //(例: action=Employee command=show の場合 EmployeeActionクラスのshow()メソッドを実行する)
-            commandMethod =this.getClass().getDeclaredMethod(command, new Class[0]);//第一がメソッド名、第２はメソッドの引数
+            commandMethod = this.getClass().getDeclaredMethod(command, new Class[0]);//第一がメソッド名、第２はメソッドの引数
             commandMethod.invoke(this, new Object[0]); //メソッドに渡す引数はなし
             //getdeclaredmethodでメソッドを取得し、invokeでそのメソッドを実行
 
@@ -91,7 +87,7 @@ public abstract class ActionBase {
     protected void forward(ForwardConst target) throws ServletException, IOException {
 
         //jspファイルの相対パスを作成
-        String forward = String.format("/WEB-INF/views/%s.jsp", target.getValue());
+        String forward = String.format("/WEB-INF/views/%s.jsp", target.getValue());//ForwardConst型の引数から値を取得して、代入。
         RequestDispatcher dispatcher = request.getRequestDispatcher(forward);
 
         //jspファイルの呼び出し
@@ -109,7 +105,7 @@ public abstract class ActionBase {
     protected void redirect(ForwardConst action, ForwardConst command)
             throws ServletException, IOException {
 
-        //URLを構築
+        //URLを構築　HttpServletRequestクラス
         String redirectUrl = request.getContextPath() + "/?action=" + action.getValue();
         if (command != null) {
             redirectUrl = redirectUrl + "&command=" + command.getValue();

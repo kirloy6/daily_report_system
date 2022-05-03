@@ -23,9 +23,9 @@
                     <th>氏名</th>
                     <th>操作</th>
                 </tr>
-                <c:forEach var="employee" items="${employees}" varStatus="status">  
-                    <tr class="row${status.count % 2}"><%--count1,2,3　--%>
-                        <td><c:out value="${employee.code}" /></td>
+                <c:forEach var="employee" items="${employees}" varStatus="status">
+                    <tr class="row${status.count % 2}"><%--count1,2,3　　row0,1,0,1--%>
+                        <td><c:out value="${employee.code}" /></td> <%--リクエストスコープ EmployeeView --%>
                         <td><c:out value="${employee.name}" /></td>
                         <td>
                             <c:choose>
@@ -51,6 +51,7 @@
                     </c:when>
                     <c:otherwise>
                         <a href="<c:url value='?action=${actEmp}&command=${commIdx}&page=${i}' />"><c:out value="${i}" /></a>&nbsp;
+                        <%--page数iのリンクを表示 --%>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>

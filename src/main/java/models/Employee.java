@@ -46,7 +46,7 @@ public class Employee {
     private Integer id;
 
     //社員番号
-    @Column(name = JpaConst.EMP_COL_CODE, nullable = false, unique = true)//既に登録してある番号は登録できない
+    @Column(name = JpaConst.EMP_COL_CODE, nullable = false, unique = true)//番号に重複なし
     private String code;
 
     //氏名
@@ -54,7 +54,7 @@ public class Employee {
     private String name;
 
     //パスワード
-    @Column(name = JpaConst.EMP_COL_PASS, length = 64, nullable = false)//SHA256　ハッシュ化？
+    @Column(name = JpaConst.EMP_COL_PASS, length = 64, nullable = false)//SHA256　ハッシュ化
     private String password;
 
     //管理者権限

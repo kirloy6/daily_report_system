@@ -22,7 +22,7 @@ public class EmployeeConverter {
                 ev.getCode(),
                 ev.getName(),
                 ev.getPassword(),
-                ev.getAdminFlag() == null
+                ev.getAdminFlag() == null  //三項演算子 if-else
                         ? null
                         :ev.getAdminFlag()  == AttributeConst.ROLE_ADMIN.getIntegerValue()
                                 ? JpaConst.ROLE_ADMIN
@@ -65,6 +65,7 @@ public class EmployeeConverter {
                         : e.getDeleteFlag() == JpaConst.EMP_DEL_TRUE
                                 ? AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
                                 : AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
+
     }
 
     /**

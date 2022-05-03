@@ -64,7 +64,7 @@ public class EmployeeAction extends ActionBase {
         }
 
         //一覧画面を表示
-        forward(ForwardConst.FW_EMP_INDEX);
+        forward(ForwardConst.FW_EMP_INDEX);//index.jspへ
         }
     }
 

@@ -36,7 +36,6 @@ public class FrontController extends HttpServlet {
 
         //サーブレットコンテキスト、リクエスト、レスポンスをActionインスタンスのフィールドに設定
         action.init(getServletContext(), request, response);//三つの値をセットしている
-        //contextは引数にないのでactionbaseから取得
         //httpservletインターフェースメソッド
 
         //Actionクラスの処理を呼び出し
@@ -63,7 +62,7 @@ public class FrontController extends HttpServlet {
      */
     @SuppressWarnings({ "rawtypes", "unchecked" }) //コンパイラ警告を抑制
     private ActionBase getAction(HttpServletRequest request, HttpServletResponse response) {
-        Class type = null;
+        Class type=null;
         ActionBase action = null;
         try {
 
@@ -91,7 +90,8 @@ public class FrontController extends HttpServlet {
             action = new UnknownAction();
 
         }
-        return action;
+        return action; //問題なければactionを返す
+
     }
 
 }
