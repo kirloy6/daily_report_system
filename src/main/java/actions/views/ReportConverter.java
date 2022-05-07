@@ -18,7 +18,7 @@ public class ReportConverter {
     public static Report toModel(ReportView rv) {
         return new Report(
                 rv.getId(),
-                EmployeeConverter.toModel(rv.getEmployee()),
+                EmployeeConverter.toModel(rv.getEmployee()), //EmloyeeView型だから
                 rv.getReportDate(),
                 rv.getTitle(),
                 rv.getContent(),
@@ -39,7 +39,7 @@ public class ReportConverter {
 
         return new ReportView(
                 r.getId(),
-                EmployeeConverter.toView(r.getEmployee()),
+                EmployeeConverter.toView(r.getEmployee()), //Report型だから
                 r.getReportDate(),
                 r.getTitle(),
                 r.getContent(),

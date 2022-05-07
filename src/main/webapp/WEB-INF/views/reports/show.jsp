@@ -25,7 +25,7 @@
                 </tr>
                 <tr>
                     <th>内容</th>
-                    <td><pre><c:out value="${report.content}" /></pre></td>
+                    <td><pre><c:out value="${report.content}" /></pre></td><%--改行 --%>
                 </tr>
                 <tr>
                     <th>登録日時</th>
@@ -40,7 +40,7 @@
             </tbody>
         </table>
 
-        <c:if test="${sessionScope.login_employee.id == report.employee.id}">　//作成者のみ編集リンクを表示
+        <c:if test="${sessionScope.login_employee.id == report.employee.id}">　<%--作成者のみ編集リンクを表示 --%>
             <p>
                 <a href="<c:url value='?action=${actRep}&command=${commEdt}&id=${report.id}' />">この日報を編集する</a>
             </p>

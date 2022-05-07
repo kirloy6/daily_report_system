@@ -35,6 +35,7 @@ public class ReportService extends ServiceBase {
      * 指定した従業員が作成した日報データの件数を取得し、返却する
      * @param employee
      * @return 日報データの件数
+     * Employeeクラスに変換して,DBからデータを取得
      */
     public long countAllMine(EmployeeView employee) {
 
@@ -49,6 +50,7 @@ public class ReportService extends ServiceBase {
      * 指定されたページ数の一覧画面に表示する日報データを取得し、ReportViewのリストで返却する
      * @param page ページ数
      * @return 一覧画面に表示するデータのリスト
+     * DBから取得。Reportクラスで保管。表示用にReportViewへ変換
      */
     public List<ReportView> getAllPerPage(int page) {
 
@@ -129,7 +131,7 @@ public class ReportService extends ServiceBase {
     }
 
     /**
-     * 日報データを1件登録する
+     * 日報データを1件登録する ReportView→Report→DB
      * @param rv 日報データ
      */
     private void createInternal(ReportView rv) {

@@ -76,7 +76,7 @@ public class ReportAction extends ActionBase {
         putRequestScope(AttributeConst.REPORT, rv); //日付のみ設定済みの日報インスタンス
 
         //新規登録画面を表示
-        forward(ForwardConst.FW_REP_NEW);
+        forward(ForwardConst.FW_REP_NEW);//reportdateは今日の日付が初期設定　id　titleは空
 
     }
     /**
@@ -106,7 +106,7 @@ public class ReportAction extends ActionBase {
                     null,
                     ev, //ログインしている従業員を、日報作成者として登録する
                     day,
-                    getRequestParam(AttributeConst.REP_TITLE),
+                    getRequestParam(AttributeConst.REP_TITLE),//request.getParameter("title")と同じ,フォームに入力した内容が入る
                     getRequestParam(AttributeConst.REP_CONTENT),
                     null,
                     null);
@@ -168,7 +168,7 @@ public class ReportAction extends ActionBase {
     public void edit() throws ServletException, IOException {
 
         //idを条件に日報データを取得する
-        ReportView rv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));
+        ReportView rv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));//show.jspより
 
         //セッションからログイン中の従業員情報を取得
         EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);

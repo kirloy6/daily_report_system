@@ -45,9 +45,11 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    //日報を登録した従業員
-    @ManyToOne
-    @JoinColumn(name = JpaConst.REP_COL_EMP, nullable = false)
+    //日報を登録した従業員　一対多　　従業員に対して日報は複数　Employeeクラス
+    //ManyToOne JoinColumnを指定しないとエラー
+    //ReportテーブルにEmployeeテーブルのidを保持するカラムを作る
+    @ManyToOne //Employeeテーブルとの関係　一対多
+    @JoinColumn(name= JpaConst.REP_COL_EMP, nullable = false)// employee_idを使ってEmployeeテーブルと接続
     private Employee employee;
 
     //いつの日報かを示す日付
@@ -59,7 +61,7 @@ public class Report {
     private String title;
 
     //日報の内容
-    @Lob //テキストエリアの指定
+    @Lob //テキストエリアの指定　改行情報を保持
     @Column(name = JpaConst.REP_COL_CONTENT, nullable = false)
     private String content;
 
