@@ -2,6 +2,7 @@ package actions;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -86,17 +87,35 @@ public class ReportAction extends ActionBase {
      */
     public void create() throws ServletException, IOException {
 
+
         //CSRF対策 tokenのチェック
         if (checkToken()) {
 
             //日報の日付が入力されていなければ、今日の日付を設定
             LocalDate day = null;
+
+            System.out.println(getRequestParam(AttributeConst.REP_DATE));
             if (getRequestParam(AttributeConst.REP_DATE) == null
                     || getRequestParam(AttributeConst.REP_DATE).equals("")) {
                 day = LocalDate.now();
             } else {
                 day = LocalDate.parse(getRequestParam(AttributeConst.REP_DATE)); //入力値がある場合は取得
             }
+
+            LocalTime startTime = null;
+            if(!(getRequestParam(AttributeConst.REP_START_TIME) == null
+                    || getRequestParam(AttributeConst.REP_START_TIME).equals(""))){
+                startTime=LocalTime.parse(getRequestParam(AttributeConst.REP_START_TIME));
+            }
+
+            LocalTime endTime = null;
+            if(!(getRequestParam(AttributeConst.REP_END_TIME) == null
+                    || getRequestParam(AttributeConst.REP_END_TIME).equals(""))){
+                endTime=LocalTime.parse(getRequestParam(AttributeConst.REP_END_TIME));
+            }
+
+
+
 
             //セッションからログイン中の従業員情報を取得
             EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);//AuthAction
@@ -109,11 +128,12 @@ public class ReportAction extends ActionBase {
                     getRequestParam(AttributeConst.REP_TITLE),//request.getParameter("title")と同じ,フォームに入力した内容が入る
                     getRequestParam(AttributeConst.REP_CONTENT),
                     null,
-                    null);
+                    null,
+                    startTime,
+                    endTime);
 
             //日報情報登録
             List<String> errors = service.create(rv);
-
             if (errors.size() > 0) {
                 //登録中にエラーがあった場合
 
@@ -144,7 +164,7 @@ public class ReportAction extends ActionBase {
     public void show() throws ServletException, IOException {
 
         //idを条件に日報データを取得する
-        ReportView rv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));
+        ReportView rv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));//一覧からidリンク
 
         if (rv == null) {
             //該当の日報データが存在しない場合はエラー画面を表示
@@ -206,6 +226,21 @@ public class ReportAction extends ActionBase {
             rv.setReportDate(toLocalDate(getRequestParam(AttributeConst.REP_DATE)));
             rv.setTitle(getRequestParam(AttributeConst.REP_TITLE));
             rv.setContent(getRequestParam(AttributeConst.REP_CONTENT));
+
+            LocalTime startTime =null;
+            if(!(getRequestParam(AttributeConst.REP_START_TIME) == null
+                    || getRequestParam(AttributeConst.REP_START_TIME).equals(""))){
+                 startTime=LocalTime.parse(getRequestParam(AttributeConst.REP_START_TIME));
+            }
+            rv.setStartTime(startTime);
+
+            LocalTime endTime =null;
+            if(!(getRequestParam(AttributeConst.REP_END_TIME) == null
+                    || getRequestParam(AttributeConst.REP_END_TIME).equals(""))){
+                endTime=LocalTime.parse(getRequestParam(AttributeConst.REP_END_TIME));
+            }
+            rv.setEndTime(endTime);
+
 
             //日報データを更新する
             List<String> errors = service.update(rv);

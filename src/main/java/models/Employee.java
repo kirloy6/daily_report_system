@@ -40,6 +40,8 @@ import lombok.Setter;
 @AllArgsConstructor //全てのクラスフィールドを引数にもつ引数ありコンストラクタを自動生成する(Lombok)
 @Entity
 public class Employee {
+
+    //Id
     @Id
     @Column(name=JpaConst.EMP_COL_ID)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,6 +74,10 @@ public class Employee {
     //削除の有無
     @Column(name = JpaConst.EMP_COL_DELETE_FLAG, nullable = false)
     private Integer deleteFlag;
+
+
+
+
 
 
 

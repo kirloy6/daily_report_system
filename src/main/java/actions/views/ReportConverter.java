@@ -23,7 +23,9 @@ public class ReportConverter {
                 rv.getTitle(),
                 rv.getContent(),
                 rv.getCreatedAt(),
-                rv.getUpdatedAt());
+                rv.getUpdatedAt(),
+                rv.getStartTime(),
+                rv.getEndTime());
     }
     /**
      * DTOモデルのインスタンスからViewモデルのインスタンスを作成する
@@ -44,7 +46,9 @@ public class ReportConverter {
                 r.getTitle(),
                 r.getContent(),
                 r.getCreatedAt(),
-                r.getUpdatedAt());
+                r.getUpdatedAt(),
+                r.getStartTime(),
+                r.getEndTime());
     }
 
     /**
@@ -77,6 +81,9 @@ public class ReportConverter {
         r.setContent(rv.getContent());
         r.setCreatedAt(rv.getCreatedAt());
         r.setUpdatedAt(rv.getUpdatedAt());
+        r.setStartTime(rv.getStartTime());
+        r.setEndTime(rv.getEndTime());
+
 
     }
 

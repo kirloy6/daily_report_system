@@ -1,5 +1,6 @@
 package models.validators;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,26 @@ public class ReportValidator {
         if (!contentError.equals("")) {
             errors.add(contentError);
         }
+
+        String startTimeError = validateStartTime(rv.getStartTime());
+        if(!startTimeError.equals("")) {
+            errors.add(startTimeError);
+        }
+        String endTimeError = validateEndTime(rv.getEndTime());
+        if(!endTimeError.equals("")) {
+            errors.add(endTimeError);
+        }
+
+        String timeError = validateTime(rv.getStartTime(),rv.getEndTime());
+        if(!timeError.equals("")) {
+            errors.add(timeError);
+        }
+        String startEndTimeError = validateStartEndTime(rv.getStartTime(),rv.getEndTime());
+        if(!startEndTimeError.equals("")) {
+            errors.add(startEndTimeError);
+        }
+
+
 
         return errors;
     }
@@ -60,6 +81,39 @@ public class ReportValidator {
         //入力値がある場合は空文字を返却
         return "";
     }
+
+    private static String validateStartTime(LocalTime startTime) {
+        if(startTime == null || startTime.equals("")) {
+            return MessageConst.E_NOSTARTTIME.getMessage();
+        }
+        return "";
+    }
+
+    private static String validateEndTime(LocalTime endTime) {
+        if(endTime== null || endTime.equals("")) {
+            return MessageConst.E_NOENDTIME.getMessage();
+        }
+        return "";
+    }
+    private static String validateStartEndTime(LocalTime startTime,LocalTime endTime) {
+        if(startTime == null || endTime == null) {
+            return MessageConst.E_NOSTARTENDTIME.getMessage();
+        }
+        return "";
+    }
+
+
+
+
+
+    private static String validateTime(LocalTime startTime,LocalTime endTime) {
+      if(!(endTime == null || endTime.equals("") ) && !(startTime == null || startTime.equals("")))
+        if(endTime.isBefore(startTime)) {
+            return MessageConst.E_TIME.getMessage();
+        }
+        return "";
+    }
+
 }
 
 

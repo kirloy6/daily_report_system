@@ -17,7 +17,12 @@ public enum MessageConst {
     E_NOEMP_CODE("社員番号を入力してください。"),
     E_EMP_CODE_EXIST("入力された社員番号の情報は既に存在しています。"),
     E_NOTITLE("タイトルを入力してください。"),
-    E_NOCONTENT("内容を入力してください。");
+    E_NOCONTENT("内容を入力してください。"),
+    E_NOSTARTTIME("出勤時刻を入力してください"),
+    E_NOENDTIME("退勤時刻を入力してください"),
+    E_NOSTARTENDTIME("入力値が正しくありません"),
+    E_TIME("出勤時刻と退勤時刻が逆転しています");
+
 
 
     private final String text;

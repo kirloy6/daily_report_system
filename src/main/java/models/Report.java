@@ -2,6 +2,7 @@ package models;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,15 +40,17 @@ import lombok.Setter;
 @Entity
 
 public class Report {
-    //id
+  //id
     @Id
     @Column(name = JpaConst.REP_COL_ID)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+
     //日報を登録した従業員　一対多　　従業員に対して日報は複数　Employeeクラス
     //ManyToOne JoinColumnを指定しないとエラー
-    //ReportテーブルにEmployeeテーブルのidを保持するカラムを作る
+    //ReportテーブルにEmployeeテーブルのid(主キー)を保持するカラムを作る
+
     @ManyToOne //Employeeテーブルとの関係　一対多
     @JoinColumn(name= JpaConst.REP_COL_EMP, nullable = false)// employee_idを使ってEmployeeテーブルと接続
     private Employee employee;
@@ -73,5 +76,13 @@ public class Report {
 
     @Column(name = JpaConst.REP_COL_UPDATED_AT, nullable = false)
     private LocalDateTime updatedAt;
+
+    @Column(name= JpaConst.REP_COL_START_TIME,nullable=false)
+    private LocalTime startTime;
+
+    @Column(name= JpaConst.REP_COL_END_TIME,nullable=false)
+    private LocalTime endTime;
+
+
 
 }
