@@ -4,8 +4,10 @@
 <%@ page import="constants.ForwardConst" %>
 
 <c:set var="actRep" value="${ForwardConst.ACT_REP.getValue()}" />
+<c:set var="actFav" value="${ForwardConst.ACT_FAV.getValue()}" />
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
 <c:set var="commEdt" value="${ForwardConst.CMD_EDIT.getValue()}" />
+<c:set var="commCre" value="${ForwardConst.CMD_CREATE.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
@@ -50,11 +52,45 @@
             </tbody>
         </table>
 
+
+    <p></p>
+        <h3>${report.title}へのいいね一覧</h3>
+
+            <table>
+                <tbody>
+                    <tr>
+                        <th>氏名</th>
+                        <th>登録日時</th>
+                    </tr>
+                    <c:forEach var="favorite" items="${favorites}" varStatus="status">
+                        <fmt:parseDate value="${report.reportDate}" pattern="yyyy-MM-dd" var="reportDay" type="date" />
+
+                    <tr class="row${status.count % 2}">
+                        <td class="report_name"><c:out value="${report.employee.name}" /></td>
+                        <td class="report_date"><fmt:formatDate value='${reportDay}' pattern='yyyy-MM-dd' /></td>
+                    </tr>
+                     </c:forEach>
+                </tbody>
+            </table>
+
+
+            <form method="POST" action="<c:url value='?action=${actFav}&command=${commCrt}' />">
+            <p>
+                <input type="hidden" name="_token" value="${_token}" />
+                <input type="hidden" name="report_id" value="${report.id}" />
+                <button type="submit" >いいね！</button>
+            </p>
+            </form>
+
+
+
         <c:if test="${sessionScope.login_employee.id == report.employee.id}">　<%--作成者のみ編集リンクを表示 --%>
             <p>
                 <a href="<c:url value='?action=${actRep}&command=${commEdt}&id=${report.id}' />">この日報を編集する</a>
             </p>
         </c:if>
+
+
 
         <p>
             <a href="<c:url value='?action=${actRep}&command=${commIdx}' />">一覧に戻る</a>

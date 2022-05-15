@@ -117,6 +117,7 @@ public class ReportAction extends ActionBase {
 
 
 
+
             //セッションからログイン中の従業員情報を取得
             EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);//AuthAction
 
@@ -268,11 +269,14 @@ public class ReportAction extends ActionBase {
     }
 
 
+    }
 
 
 
 
-}
+
+
+
 
 
 
