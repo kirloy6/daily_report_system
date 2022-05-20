@@ -5,15 +5,24 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 
+import actions.views.EmployeeConverter;
 import actions.views.EmployeeView;
+import actions.views.FavoriteConverter;
+import actions.views.FavoriteView;
+import actions.views.ReportConverter;
 import actions.views.ReportView;
 import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.JpaConst;
 import constants.MessageConst;
+import models.Employee;
+import models.Favorite;
+import models.Report;
 import services.ReportService;
+import utils.DBUtil;
 
 //日報に関する処理を行うActionクラス
 
@@ -163,9 +172,19 @@ public class ReportAction extends ActionBase {
      * @throws IOException
      */
     public void show() throws ServletException, IOException {
+        EntityManager em = DBUtil.createEntityManager();
+
+        int page =1;
 
         //idを条件に日報データを取得する
         ReportView rv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));//一覧からidリンク
+
+        List<Favorite> favorites = em.createNamedQuery(JpaConst.Q_FAV_GET_ALL_MINE, Favorite.class)
+                .setParameter(JpaConst.JPQL_PARM_REPORT, ReportConverter.toModel(rv))
+                .setFirstResult(JpaConst.ROW_PER_PAGE * (page - 1))
+                .setMaxResults(JpaConst.ROW_PER_PAGE)
+                .getResultList();
+        em.close();
 
         if (rv == null) {
             //該当の日報データが存在しない場合はエラー画面を表示
@@ -173,12 +192,35 @@ public class ReportAction extends ActionBase {
 
         } else {
 
+            Report r = ReportConverter.toModel(rv);
+
+            List<Favorite> fav_list = service.getFavorites(r);
+            List<FavoriteView> fvs = FavoriteConverter.toViewList(fav_list);
+
+            //セッションからログイン中の従業員情報を取得
+            EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);//AuthAction
+            Employee e = EmployeeConverter.toModel(ev);
+
+            Boolean favorite_flag = service.getFavoritesFlag(e, r);
+
+            request.setAttribute("favorites", fvs);
+            request.setAttribute("favorite_flag", favorite_flag);
             putRequestScope(AttributeConst.REPORT, rv); //取得した日報データ
+            putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
+
+            //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する
+            String flush = getSessionScope(AttributeConst.FLUSH);
+            if (flush != null) {
+                putRequestScope(AttributeConst.FLUSH, "日報番号: " + rv.getId() + flush);
+                removeSessionScope(AttributeConst.FLUSH);
+            }
 
             //詳細画面を表示
             forward(ForwardConst.FW_REP_SHOW);
         }
     }
+
+
 
 
     /**

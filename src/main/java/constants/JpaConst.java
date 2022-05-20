@@ -1,4 +1,5 @@
 package constants;
+
 //* ※インターフェイスに定義した変数は public static final 修飾子がついているとみなされる
 public interface JpaConst {
   //persistence-unit名
@@ -90,7 +91,15 @@ public interface JpaConst {
     //指定した日報に対するいいねデータの件数を取得
     String Q_FAV_COUNT_ALL_MINE = ENTITY_FAV + ".countAllMine";
     String Q_FAV_COUNT_ALL_MINE_DEF = "SELECT COUNT(f) FROM Favorite AS f WHERE f.report = :" + JPQL_PARM_REPORT;
-
+    //指定した従業員と日報に対するいいねデータ
+    String Q_FAV_BY_EMPLOYEE_AND_REPORT = ENTITY_FAV + "getByEmployeeAndRecord";
+    String Q_FAV_BY_EMPLOYEE_AND_REPORT_DEF ="SELECT f FROM Favorite AS f WHERE f.report = :" + JPQL_PARM_REPORT + " AND f.employee = :" + JPQL_PARM_EMPLOYEE;
+  //指定した従業員のいいねデータ
+    String Q_FAV_GET_ALL_BY_EMPLOYEE = ENTITY_FAV + "getAllByEmployee";
+    String Q_FAV_GET_ALL_BY_EMPLOYEE_DEF ="SELECT f FROM Favorite AS f WHERE f.employee =:"+ JPQL_PARM_EMPLOYEE ;
+    //指定した従業員がいいねした日報件数
+    String Q_FAV_COUNT_ALL_BY_EMPLOYEE =ENTITY_FAV +"countAllByEmployee";
+    String Q_FAV_COUNT_ALL_BY_EMPLOYEE_DEF ="SELECT COUNT(f) FROM Favorite AS f WHERE f.employee =:"+ JPQL_PARM_EMPLOYEE;
 }
 
 

@@ -46,7 +46,7 @@ public enum AttributeConst {
     REP_CONTENT("content"),
     REP_START_TIME("start_time"),
     REP_END_TIME("end_time"),
-    REP_FAVORITE("favorite");
+    FAVORITES("favorites");
 
 
     private final String text;

@@ -8,6 +8,8 @@ import actions.views.EmployeeView;
 import actions.views.ReportConverter;
 import actions.views.ReportView;
 import constants.JpaConst;
+import models.Employee;
+import models.Favorite;
 import models.Report;
 import models.validators.ReportValidator;
 
@@ -30,6 +32,8 @@ public class ReportService extends ServiceBase {
                 .getResultList();
         return ReportConverter.toViewList(reports);
     }
+
+
 
     /**
      * 指定した従業員が作成した日報データの件数を取得し、返却する
@@ -69,6 +73,13 @@ public class ReportService extends ServiceBase {
         long reports_count = (long) em.createNamedQuery(JpaConst.Q_REP_COUNT, Long.class)
                 .getSingleResult();
         return reports_count;
+    }
+
+    public long countAllMy(EmployeeView employee) {
+        long my_favorite_reports_count = (long) em.createNamedQuery(JpaConst.Q_FAV_COUNT_ALL_BY_EMPLOYEE, Long.class)
+                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, EmployeeConverter.toModel(employee))
+                .getSingleResult();
+        return my_favorite_reports_count;
     }
 
     /**
@@ -154,6 +165,28 @@ public class ReportService extends ServiceBase {
         em.getTransaction().commit();
 
     }
+
+    public List<Favorite> getFavorites(Report r){
+        List<Favorite> fav_list = em.createNamedQuery(JpaConst.Q_FAV_GET_ALL_MINE, Favorite.class)
+                .setParameter("report", r)
+                .getResultList();
+        return fav_list;
+    }
+
+
+
+    public boolean getFavoritesFlag(Employee e, Report r){
+        List<Favorite> fav_list = em.createNamedQuery(JpaConst.Q_FAV_BY_EMPLOYEE_AND_REPORT, Favorite.class)
+                .setParameter("employee", e)
+                .setParameter("report", r)
+                .getResultList();
+        if(fav_list.size() != 0) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 
 }
 

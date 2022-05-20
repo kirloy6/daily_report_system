@@ -24,7 +24,9 @@ import lombok.Setter;
 @Table(name = JpaConst.TABLE_FAV)
 @NamedQueries({
     @NamedQuery(name = JpaConst.Q_FAV_GET_ALL_MINE, query = JpaConst.Q_FAV_GET_ALL_MINE_DEF),
-    @NamedQuery(name = JpaConst.Q_FAV_COUNT_ALL_MINE, query = JpaConst.Q_FAV_COUNT_ALL_MINE_DEF)
+    @NamedQuery(name = JpaConst.Q_FAV_COUNT_ALL_MINE, query = JpaConst.Q_FAV_COUNT_ALL_MINE_DEF),
+    @NamedQuery(name = JpaConst.Q_FAV_BY_EMPLOYEE_AND_REPORT, query = JpaConst.Q_FAV_BY_EMPLOYEE_AND_REPORT_DEF),
+    @NamedQuery(name = JpaConst.Q_FAV_GET_ALL_BY_EMPLOYEE, query = JpaConst.Q_FAV_GET_ALL_BY_EMPLOYEE_DEF)
 })
 
 @Getter //全てのクラスフィールドについてgetterを自動生成する(Lombok)

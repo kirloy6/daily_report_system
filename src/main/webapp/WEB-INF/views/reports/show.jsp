@@ -1,16 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <%@ page import="constants.ForwardConst" %>
+<%@ page import="constants.AttributeConst" %><%--ここが抜けていた --%>
+
 
 <c:set var="actRep" value="${ForwardConst.ACT_REP.getValue()}" />
 <c:set var="actFav" value="${ForwardConst.ACT_FAV.getValue()}" />
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
 <c:set var="commEdt" value="${ForwardConst.CMD_EDIT.getValue()}" />
-<c:set var="commCre" value="${ForwardConst.CMD_CREATE.getValue()}" />
+<c:set var="commCrt" value="${ForwardConst.CMD_CREATE.getValue()}" />
+<c:set var="commDest" value="${ForwardConst.CMD_DESTROY.getValue()}" />
+<c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}" />
+
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
+
+        <c:if test="${flush != null}">
+            <div id="flush_success">
+                <c:out value="${flush}"></c:out>
+            </div>
+        </c:if>
 
         <h2>日報 詳細ページ</h2>
 
@@ -31,13 +44,13 @@
                 </tr>
                 <tr>
                     <th>登録日時</th>
-                    <fmt:parseDate value="${report.createdAt}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="createDay" type="date" />
-                    <td><fmt:formatDate value="${createDay}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                    <fmt:parseDate value="${report.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createDay" type="date" />
+                    <td><fmt:formatDate value="${createDay}" pattern="yyyy-MM-dd HH:mm" /></td>
                 </tr>
                 <tr>
                     <th>更新日時</th>
-                    <fmt:parseDate value="${report.updatedAt}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="updateDay" type="date" />
-                    <td><fmt:formatDate value="${updateDay}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                    <fmt:parseDate value="${report.updatedAt}" pattern="yyyy-MM-dd'T'HH:mm" var="updateDay" type="date" />
+                    <td><fmt:formatDate value="${updateDay}" pattern="yyyy-MM-dd HH:mm" /></td>
                 </tr>
                 <tr>
                     <th>出勤時間</th>
@@ -48,6 +61,10 @@
                     <th>退勤時間</th>
                     <fmt:parseDate value="${report.endTime}" pattern="HH:mm" var="end_time" type="time" />
                     <td><fmt:formatDate value="${end_time}" pattern="HH:mm" /></td>
+                </tr>
+                <tr>
+                    <th>いいね数</th>
+                    <td><c:out value="${fn:length(favorites)}" /></td>
                 </tr>
             </tbody>
         </table>
@@ -61,26 +78,44 @@
                     <tr>
                         <th>氏名</th>
                         <th>登録日時</th>
+                        <th>操作</th>
                     </tr>
                     <c:forEach var="favorite" items="${favorites}" varStatus="status">
-                        <fmt:parseDate value="${report.reportDate}" pattern="yyyy-MM-dd" var="reportDay" type="date" />
+                        <fmt:parseDate value="${favorite.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt" type="date" />
 
                     <tr class="row${status.count % 2}">
-                        <td class="report_name"><c:out value="${report.employee.name}" /></td>
-                        <td class="report_date"><fmt:formatDate value='${reportDay}' pattern='yyyy-MM-dd' /></td>
+                        <td class="report_name"><c:out value="${favorite.employee.name}" /></td>
+                        <td class="created_at"><fmt:formatDate value='${createdAt}' pattern='yyyy-MM-dd HH:mm' /></td>
+                        <td class="report_action"><a href="<c:url value='?action=${actRep}&command=${commShow}&id=${report.id}' />">詳細を見る</a></td>
                     </tr>
                      </c:forEach>
                 </tbody>
             </table>
 
 
-            <form method="POST" action="<c:url value='?action=${actFav}&command=${commCrt}' />">
-            <p>
-                <input type="hidden" name="_token" value="${_token}" />
-                <input type="hidden" name="report_id" value="${report.id}" />
-                <button type="submit" >いいね！</button>
-            </p>
-            </form>
+           <c:choose>
+                <c:when test="${favorite_flag == false}">
+                    <form method="POST" action="<c:url value='?action=${actFav}&command=${commCrt}' />">
+                        <p>
+                            <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
+                            <input type="hidden" name="${AttributeConst.REP_ID.getValue()}" value="${report.id}" /><%--AttributeConstのimport忘れ --%>
+                            <button type="submit" >いいね！</button>
+                        </p>
+                    </form>
+                </c:when>
+                <c:otherwise>
+                    <form method="POST" action="<c:url value='?action=${actFav}&command=${commDest}' />">
+                        <p>
+                            <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
+                            <input type="hidden" name="${AttributeConst.REP_ID.getValue()}" value="${report.id}" />
+                            <button type="submit" >いいね解除</button>
+                        </p>
+                    </form>
+
+                </c:otherwise>
+            </c:choose>
+
+
 
 
 
