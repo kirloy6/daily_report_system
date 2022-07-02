@@ -23,6 +23,7 @@ public class AuthAction extends ActionBase {
 
         service = new EmployeeService();
 
+
         //メソッドを実行
         invoke();
 
@@ -73,6 +74,7 @@ public class AuthAction extends ActionBase {
 
                 //ログインした従業員のDBデータを取得
                 EmployeeView ev = service.findOne(code, plainPass, pepper);
+
                 //セッションにログインした従業員を設定
                 putSessionScope(AttributeConst.LOGIN_EMP, ev);
                 //セッションにログイン完了のフラッシュメッセージを設定

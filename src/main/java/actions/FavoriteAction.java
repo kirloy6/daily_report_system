@@ -44,6 +44,9 @@ public class FavoriteAction extends ActionBase {
         List<FavoriteView> favorites = fservice.getMyFavorite(ev);
 
 
+
+
+
         putRequestScope(AttributeConst.FAVORITES, favorites); //取得したいいねデータ
 
         //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する
@@ -112,7 +115,6 @@ public class FavoriteAction extends ActionBase {
         //セッションに登録完了のフラッシュメッセージを設定
         putSessionScope(AttributeConst.FLUSH, MessageConst.I_UNFAVORITE.getMessage());
 
-        //一覧画面にリダイレクト
         redirect(ForwardConst.ACT_REP, ForwardConst.CMD_SHOW, rv.getId());
 
     }

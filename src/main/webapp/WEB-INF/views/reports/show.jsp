@@ -89,6 +89,13 @@
                         <td class="report_action"><a href="<c:url value='?action=${actRep}&command=${commShow}&id=${report.id}' />">詳細を見る</a></td>
                     </tr>
                      </c:forEach>
+
+
+                        <select name="a">
+                            <c:forEach var="favorite" items="${favorites}">
+                                <option value="${favorite}">${favorite.employee.name}</option>
+                            </c:forEach>
+                        </select>
                 </tbody>
             </table>
 
